@@ -33,3 +33,11 @@ app.post('/email_post', (req, res) => {
   res.render('email.ejs', { 'email': req.body.email })
 })
 
+app.post('/ajax_send_email', (req, res) => {
+  // check validation about input value => CRUD db
+  const responseData = {
+    'result': 'ok',
+    'email': req.body.email
+  }
+  res.json(responseData)
+})
