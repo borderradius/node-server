@@ -6,9 +6,9 @@ const mysql = require('mysql')
 // mysql 연결
 const connection = mysql.createConnection({
   host: 'localhost',
-  port: 3333,
+  port: 3306,
   user: 'root',
-  password: 'Sjaksahffk.!23',
+  password: 'Rnflah28!',
   database: 'test'
 })
 connection.connect()
@@ -46,9 +46,18 @@ app.post('/email_post', (req, res) => {
 
 app.post('/ajax_send_email', (req, res) => {
   // check validation about input value => CRUD db
-  const responseData = {
-    'result': 'ok',
-    'email': req.body.email
-  }
-  res.json(responseData)
+  const email = req.body.email
+  const responseData = {}
+
+  const query = connection.query(`select name from test where email="${email}"`, function (err, rows) {
+    if (err) throw err
+    if (rows[0]) {
+      responseData.result = "ok"
+      responseData.name = rows[0].name
+    } else {
+      responseData.result = "false"
+      responseData.name = ''
+    }
+    res.json(responseData)
+  })
 })
