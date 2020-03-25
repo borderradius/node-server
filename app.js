@@ -1,6 +1,17 @@
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
+const mysql = require('mysql')
+
+// mysql 연결
+const connection = mysql.createConnection({
+  host: 'localhost',
+  port: 3333,
+  user: 'root',
+  password: 'Sjaksahffk.!23',
+  database: 'test'
+})
+connection.connect()
 
 // 콜백함수는 거의 다 비동기
 // 동기화 함수가 실행되고 나서 비동기 동작?
