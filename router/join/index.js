@@ -24,8 +24,11 @@ router.post('/', (req, res) => {
   const body = req.body
   const email = body.email
   const name = body.name
-  const password = body.password
-  const query = connection.query(`insert into test (email, name, pw) values ('${email}', '${name}', '${password}')`, (err, rows) => {
+  const pw = body.password
+
+  const sql = { email, name, pw }
+  // const query = connection.query(`insert into test (email, name, pw) values ('${email}', '${name}', '${password}')`, (err, rows) => {
+  const query = connection.query(`insert into test set ?`, sql, (err, rows) => {
     if (err) { throw err }
     console.log("ok db insert");
   })
