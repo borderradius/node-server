@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
 const mysql = require('mysql')
+const main = require('./router/main')
 
 // mysql 연결
 const connection = mysql.createConnection({
@@ -32,10 +33,7 @@ app.get('/', (req, res) => {
   res.sendFile(`${__dirname}/public/main.html`)
 })
 
-app.get('/main', (req, res) => {
-  console.log('/main');
-  res.sendFile(`${__dirname}/public/main.html`)
-})
+app.use('/main', main)
 
 app.post('/email_post', (req, res) => {
   // res.send('post response')
