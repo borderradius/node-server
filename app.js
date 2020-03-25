@@ -1,8 +1,8 @@
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
-const main = require('./router/main')
-const email = require('./router/email')
+const router = require('./router/index')
+
 
 // 콜백함수는 거의 다 비동기
 // 동기화 함수가 실행되고 나서 비동기 동작?
@@ -18,12 +18,9 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.set('view engine', 'ejs')
 
 // URL ROUTE
-app.use('/main', main)
-app.use('/email', email)
+app.use(router)
 
-app.get('/', (req, res) => {
-  console.log('/');
-  res.sendFile(`${__dirname}/public/main.html`)
-})
+
+
 
 
