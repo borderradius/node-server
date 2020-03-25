@@ -1,18 +1,8 @@
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
-const mysql = require('mysql')
 const main = require('./router/main')
-
-// mysql 연결
-const connection = mysql.createConnection({
-  host: 'localhost',
-  port: 3306,
-  user: 'root',
-  password: 'Rnflah28!',
-  database: 'test'
-})
-connection.connect()
+const email = require('./router/email')
 
 // 콜백함수는 거의 다 비동기
 // 동기화 함수가 실행되고 나서 비동기 동작?
@@ -28,34 +18,12 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.set('view engine', 'ejs')
 
 // URL ROUTE
+app.use('/main', main)
+app.use('/email', email)
+
 app.get('/', (req, res) => {
   console.log('/');
   res.sendFile(`${__dirname}/public/main.html`)
 })
 
-app.use('/main', main)
 
-app.post('/email_post', (req, res) => {
-  // res.send('post response')
-  // console.log(req.body);
-  // res.send(`<h1>welcome ! ${req.body.email}</h1>`)
-  res.render('email.ejs', { 'email': req.body.email })
-})
-
-app.post('/ajax_send_email', (req, res) => {
-  // check validation about input value => CRUD db
-  const email = req.body.email
-  const responseData = {}
-
-  const query = connection.query(`select name from test where email="${email}"`, function (err, rows) {
-    if (err) throw err
-    if (rows[0]) {
-      responseData.result = "ok"
-      responseData.name = rows[0].name
-    } else {
-      responseData.result = "false"
-      responseData.name = ''
-    }
-    res.json(responseData)
-  })
-})
